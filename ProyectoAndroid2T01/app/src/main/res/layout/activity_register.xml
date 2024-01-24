@@ -50,9 +50,11 @@
                 android:textColorHint="@color/white"
                 android:textColor="@color/white"
                 android:width="2dp"
-                android:color="@color/lavander"/>
-
+                android:color="@color/lavander"
+                android:inputType="textCapSentences"
                 />
+
+
 
             <EditText
                 android:id="@+id/edad"
@@ -67,9 +69,10 @@
                 android:textColorHint="@color/white"
                 android:textColor="@color/white"
                 android:width="2dp"
-                android:color="@color/lavander"/>
+                android:color="@color/lavander"
+                android:inputType="number"/>
 
-            />
+
 
             <EditText
                 android:id="@+id/correo"
@@ -84,13 +87,14 @@
                 android:textColorHint="@color/white"
                 android:textColor="@color/white"
                 android:width="2dp"
-                android:color="@color/lavander"/>
+                android:color="@color/lavander"
+                android:inputType="textEmailAddress"/>
 
-            />
+
 
 
             <EditText
-                android:id="@+id/Password"
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="40dp"
@@ -104,7 +108,7 @@
                 android:padding="8dp" />
 
             <Button
-                android:id="@+id/logignbutton"
+                android:id="@+id/loginbutton"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
@@ -117,7 +121,7 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:id="@+id/redirectregister"
+                android:id="@+id/redirectlogin"
                 android:text="Tiene una Cuenta? Resgistrate"
                 android:layout_gravity="center"
                 android:padding="8dp"
