@@ -62,12 +62,25 @@
                 android:padding="8dp"
 
                 />
+            <CheckBox
+                android:id="@+id/CBRecordar"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="8dp"
+                android:hint="Password"
+                android:textColor="@color/lavander"
+                android:padding="8dp"
+                android:text="Recordar Usuario"
+
+                />
 
             <Button
                 android:id="@+id/loginbutton"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:backgroundTint="@color/lavander"
             android:text="Login"
             android:textSize="22sp"
