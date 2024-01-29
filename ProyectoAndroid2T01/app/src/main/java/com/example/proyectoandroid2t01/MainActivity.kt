@@ -12,6 +12,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,7 +23,14 @@ class MainActivity : AppCompatActivity() {
     lateinit var recordar: CheckBox
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
+
         super.onCreate(savedInstanceState)
+        installSplashScreen().setKeepOnScreenCondition{false}
+
+
+        setTheme(R.style.Theme_ProyectoAndroid2T01)
         setContentView(R.layout.activity_main)
 
         correo=findViewById(R.id.correo)
