@@ -7,10 +7,10 @@ import retrofit2.http.POST
 import retrofit2.http.DELETE
 
 interface MainApi {
-    @GET("/localhost/buscarusuario.php")
+    @POST("/localhost/buscarusuario.php")
     fun buscarusuario(
         @Query("Correo") correo:String?,
-        @Query("Password") password:String?
+        @Query("Contraseña") contraseña:String?
     ):Call<UsuarioResponse>
 
     @POST("/localhost/crearusuario.php")

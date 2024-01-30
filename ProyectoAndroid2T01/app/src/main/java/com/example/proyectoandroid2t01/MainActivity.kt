@@ -11,8 +11,14 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var registerButton:TextView
     lateinit var recordar: CheckBox
 
+    private val baseUrl="http://127.0.0.1"
+    private lateinit var apiService: MainApi
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
@@ -49,19 +57,57 @@ class MainActivity : AppCompatActivity() {
             recordar.isChecked=true
         }
 
-
-
+        val retrofit=Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        apiService=retrofit.create(MainApi::class.java)
 
     }
 
     private val clickListener= View.OnClickListener { view->
         when(view.id){
             R.id.loginbutton->{
+                val correo=correo.text.toString()
+                //val contraseña=password.text.toString()
+                val contraseña="pepito"
                 guardar()
+                /*
                 AlertDialog.Builder(this)
                     .setTitle("Inicio")
                     .setMessage("Botton funciona")
                     .setPositiveButton("Aceptar"){dialog,_->}.show()
+                 */
+
+                if(validarCampos(correo,contraseña)){
+                    apiService.buscarusuario(correo,contraseña).enqueue(object : Callback<UsuarioResponse> {
+                        override fun onResponse(
+                            call: Call<UsuarioResponse>,
+                            response: Response<UsuarioResponse>
+                        ) {
+                            if(response.isSuccessful){
+                                val usuarioResponse=response.body()
+                                AlertDialog.Builder(this@MainActivity)
+                                    .setTitle("Cliente")
+                                    .setMessage("Nombre: ${usuarioResponse?.NombreApellido}"+"\nCorreo: ${usuarioResponse?.Correo}"+"\nEdad: ${usuarioResponse?.Edad} ")
+                                    .setPositiveButton("Aceptar") { dialog, _ ->
+                                        dialog.dismiss()
+                                    }
+                                    .show()
+                            }
+                        }
+
+                        override fun onFailure(call: Call<UsuarioResponse>, t: Throwable) {
+                            showToast("Erorr")
+                        }
+
+
+                    })
+
+                }
+
+
+
             }
             R.id.redirectregister->{
                 startActivity(Intent(this@MainActivity,Register::class.java));
@@ -87,6 +133,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun validarCampos(correo:String, password:String):Boolean{
+        return correo.isNotEmpty() && password.isNotEmpty()
+    }
+
+    private fun showToast(message: String){
+        Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
+    }
 
 
 
