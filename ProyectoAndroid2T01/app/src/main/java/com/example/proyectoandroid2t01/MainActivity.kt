@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var registerButton:TextView
     lateinit var recordar: CheckBox
 
-    private val baseUrl="http://127.0.0.1"
+    private val baseUrl="http://10.0.2.2/"
     private lateinit var apiService: MainApi
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -69,8 +69,8 @@ class MainActivity : AppCompatActivity() {
         when(view.id){
             R.id.loginbutton->{
                 val correo=correo.text.toString()
-                //val contraseña=password.text.toString()
-                val contraseña="pepito"
+
+                val contraseña=password.text.toString()
                 guardar()
                 /*
                 AlertDialog.Builder(this)
@@ -87,18 +87,25 @@ class MainActivity : AppCompatActivity() {
                         ) {
                             if(response.isSuccessful){
                                 val usuarioResponse=response.body()
-                                AlertDialog.Builder(this@MainActivity)
-                                    .setTitle("Cliente")
-                                    .setMessage("Nombre: ${usuarioResponse?.NombreApellido}"+"\nCorreo: ${usuarioResponse?.Correo}"+"\nEdad: ${usuarioResponse?.Edad} ")
-                                    .setPositiveButton("Aceptar") { dialog, _ ->
-                                        dialog.dismiss()
-                                    }
-                                    .show()
+                                if(usuarioResponse?.nombreapellido!="vacio"){
+                                    AlertDialog.Builder(this@MainActivity)
+                                        .setTitle("Vienvenido")
+                                        .setMessage("Nombre: ${usuarioResponse?.nombreapellido} "+"\nCorreo: ${usuarioResponse?.correo}"+"\nEdad: ${usuarioResponse?.edad} ")
+                                        .setPositiveButton("Aceptar") { dialog, _ ->
+                                            dialog.dismiss()
+                                        }
+                                        .show()
+                                }else{
+                                    showToast("Contraseña o Correo incorrectos")
+                                }
+
                             }
                         }
 
                         override fun onFailure(call: Call<UsuarioResponse>, t: Throwable) {
-                            showToast("Erorr")
+                           showToast("Erro al conectarse a la base de datos")
+
+
                         }
 
 
