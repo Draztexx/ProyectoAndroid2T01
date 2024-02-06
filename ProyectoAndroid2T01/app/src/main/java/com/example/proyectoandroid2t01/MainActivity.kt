@@ -95,6 +95,8 @@ class MainActivity : AppCompatActivity() {
                                             dialog.dismiss()
                                         }
                                         .show()
+                                    startActivity(Intent(this@MainActivity,MenuActivity::class.java));
+
                                 }else{
                                     showToast("Contraseña o Correo incorrectos")
                                 }

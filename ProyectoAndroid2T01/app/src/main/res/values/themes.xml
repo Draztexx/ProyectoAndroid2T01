@@ -2,10 +2,18 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.ProyectoAndroid2T01" parent="Theme.Material3.DayNight.NoActionBar">
 
-     </style>
-
+    </style>
 
 
     <style name="Theme.ProyectoAndroid2T01" parent="Base.Theme.ProyectoAndroid2T01" />
+
+    <style name="Base.Theme.ProyectoAndroid2T01.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Base.Theme.ProyectoAndroid2T01.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Base.Theme.ProyectoAndroid2T01.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
