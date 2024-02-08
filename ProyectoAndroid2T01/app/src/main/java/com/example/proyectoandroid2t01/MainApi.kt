@@ -19,11 +19,12 @@ interface MainApi {
     ):Call<UsuarioResponse>
 
     @POST("/proyectoandroid2t01/crearusuario.php")
+    @FormUrlEncoded
     fun crearusuario(
-        @Query("Nombre") nombre:String?,
-        @Query("Edad") edad:Number?,
-        @Query("Correo") correo:String?,
-        @Query("Password") password:String?
+        @Query("nombre") nombre:String?,
+        @Query("edad") edad:Number?,
+        @Query("correo") correo:String?,
+        @Query("contraseña") password:String?
     ):Call<UsuarioResponse>
 
 
