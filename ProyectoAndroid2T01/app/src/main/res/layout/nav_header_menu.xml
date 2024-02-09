@@ -13,6 +13,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
+
         android:id="@+id/imageView"
         android:layout_width="250px"
         android:layout_height="250px"
@@ -21,6 +22,7 @@
         app:srcCompat="@drawable/imguser" />
 
     <TextView
+        android:id="@+id/Nombremenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
@@ -29,7 +31,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/Correomenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Correo del usuario" />

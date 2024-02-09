@@ -1,5 +1,6 @@
 package com.example.proyectoandroid2t01
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -30,6 +31,8 @@ class MainActivity : AppCompatActivity() {
 
     private val baseUrl="http://10.0.2.2/"
     private lateinit var apiService: MainApi
+
+    private lateinit var dbHelper: AdminSQLiteOpenHelper
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
@@ -50,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         loginButton.setOnClickListener(clickListener)
         registerButton.setOnClickListener(clickListener)
 
+        //preparar el shared preferences
         val preferences=getSharedPreferences("User",Context.MODE_PRIVATE)
         correo.setText(preferences.getString("correo",""))
         password.setText(preferences.getString("password",""))
@@ -57,11 +61,19 @@ class MainActivity : AppCompatActivity() {
             recordar.isChecked=true
         }
 
+        //-----------------------------------------
+
+        //preparar la conexion a la base de datos
         val retrofit=Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         apiService=retrofit.create(MainApi::class.java)
+        //_------------------------------------------------
+
+        //prepara a la conexion a SQLITE
+        dbHelper=AdminSQLiteOpenHelper(this,"aplicacion",null,1)
+        //----------------------------------
 
     }
 
@@ -87,7 +99,7 @@ class MainActivity : AppCompatActivity() {
                         ) {
                             if(response.isSuccessful){
                                 val usuarioResponse=response.body()
-                                if(usuarioResponse?.nombreapellido!="vacio"){
+                                if( usuarioResponse?.nombreapellido!="vacio"){
                                     AlertDialog.Builder(this@MainActivity)
                                         .setTitle("Vienvenido")
                                         .setMessage("Nombre: ${usuarioResponse?.nombreapellido} "+"\nCorreo: ${usuarioResponse?.correo}"+"\nEdad: ${usuarioResponse?.edad} ")
@@ -95,6 +107,8 @@ class MainActivity : AppCompatActivity() {
                                             dialog.dismiss()
                                         }
                                         .show()
+
+                                    insertar(usuarioResponse.correo,usuarioResponse.nombreapellido,usuarioResponse.edad)
                                     startActivity(Intent(this@MainActivity,MenuActivity::class.java));
 
                                 }else{
@@ -148,6 +162,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun showToast(message: String){
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
+    }
+
+
+    private fun insertar(correo: String,nombre:String, edad:Int){
+        val db=dbHelper.writableDatabase
+        val values=ContentValues().apply {
+            put("correo",correo)
+            put("nombre", nombre)
+            put("edad",edad)
+        }
+        db.insert("usario",null,values)
+        db.close()
     }
 
 

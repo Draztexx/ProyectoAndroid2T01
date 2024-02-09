@@ -4,12 +4,12 @@
 
 
 
-    $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
+    $nombre = isset($_POST['nombreapellido']) ? $_POST['nombreapellido'] : null;
     $edad = isset($_POST['edad']) ? $_POST['edad'] : null;
     $correo = isset($_POST['correo']) ? $_POST['correo'] : null;
     $contraseña = isset($_POST['contraseña']) ? $_POST['contraseña'] : null;
 
-    $sentencia=$conexion->prepare("INSERT INTO usuarios (nombre,edad,correo,contraseña) VALUES (?,?,?,?)")
+    $sentencia=$conexion->prepare("INSERT INTO usuarios (nombreapellido,edad,correo,contraseña) VALUES (?,?,?,?)");
     $sentencia->bind_param('ssss', $nombre,$edad,$correo, $contraseña);
     $sentencia->execute();
 

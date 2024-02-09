@@ -46,12 +46,18 @@ class Register : AppCompatActivity() {
         redirectButton.setOnClickListener(clickListener)
 
 
+        val retrofit=Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        apiService=retrofit.create(MainApi::class.java)
+
     }
 
     private val clickListener= View.OnClickListener { view->
         when(view.id){
             R.id.loginbutton->{
-                val nombre=nombre.text.toString()
+                val nombreapellido=nombre.text.toString()
                 val edad=edad.text.toString().toInt()
                 val correo=correo.text.toString()
                 val contraseña=password.text.toString()
@@ -59,8 +65,8 @@ class Register : AppCompatActivity() {
 
 
 
-                if(validarCampos(nombre,edad,correo,contraseña)){
-                    apiService.crearusuario(nombre,edad,correo,contraseña).enqueue(object :
+                if(validarCampos(nombreapellido,edad,correo,contraseña)){
+                    apiService.crearusuario(nombreapellido,edad,correo,contraseña).enqueue(object :
                         Callback<UsuarioResponse> {
                         override fun onResponse(
                             call: Call<UsuarioResponse>,
@@ -76,7 +82,7 @@ class Register : AppCompatActivity() {
                                             dialog.dismiss()
                                         }
                                         .show()
-                                    startActivity(Intent(this@Register,MenuActivity::class.java));
+                                    startActivity(Intent(this@Register,MainActivity::class.java))
 
                                 }else{
                                     showToast("Contraseña o Correo incorrectos")
@@ -86,7 +92,15 @@ class Register : AppCompatActivity() {
                         }
 
                         override fun onFailure(call: Call<UsuarioResponse>, t: Throwable) {
-                            showToast("Erro al conectarse a la base de datos")
+                            showToast("Erro al conectarse a la base de datos"+t.toString())
+                            AlertDialog.Builder(this@Register)
+                                .setTitle("Vienvenido")
+                                .setMessage(t.toString())
+                                .setPositiveButton("Aceptar") { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .show()
+
 
 
                         }

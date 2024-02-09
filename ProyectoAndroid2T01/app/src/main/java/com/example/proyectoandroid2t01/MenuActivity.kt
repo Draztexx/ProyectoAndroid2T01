@@ -2,6 +2,7 @@ package com.example.proyectoandroid2t01
 
 import android.os.Bundle
 import android.view.Menu
+import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -12,14 +13,36 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.proyectoandroid2t01.databinding.ActivityMenuBinding
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MenuActivity : AppCompatActivity() {
+
+    //Variables de conexion
+
+    private val baseUrl="http://10.0.2.2/"
+    private lateinit var apiService: MainApi
+
+    //
+
+
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMenuBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //inicializando variables de conexion
+
+        val retrofit= Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        apiService=retrofit.create(MainApi::class.java)
+
+        //------------------------------------------------------------------
+
 
         binding = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -33,8 +56,18 @@ class MenuActivity : AppCompatActivity() {
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_menu)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
+        // modificar texto del header del desplegable lateral
+        val headerView = navView.getHeaderView(0)
+
+        val headerNombre: TextView = headerView.findViewById(R.id.Nombremenu)
+        val headerCorreo: TextView = headerView.findViewById(R.id.Correomenu)
+
+
+        headerTextView.text = "Nuevo Nombre de Usuario"
+
+        // -----------------------------------------------------------------
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home, R.id.nav_crear, R.id.nav_pendientes,R.id.nav_finalizadas
@@ -54,4 +87,21 @@ class MenuActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_menu)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+
+    private fun showToast(message: String){
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -1,9 +1,9 @@
 package com.example.proyectoandroid2t01
 
 class Usuario (
-    var IdUsuario: Number,
-    var NombreApellido: String,
-    var Correo: String,
-    var Contraseña:String,
-    var Edad: Number,
+    var idusuario: Number,
+    var nombreapellido: String,
+    var correo: String,
+    var contraseña:String,
+    var edad: Number,
 )
