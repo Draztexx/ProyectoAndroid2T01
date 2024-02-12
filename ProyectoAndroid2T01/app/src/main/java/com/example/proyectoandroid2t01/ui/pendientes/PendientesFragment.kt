@@ -73,13 +73,6 @@ class PendientesFragment : Fragment() {
         return rootView
     }
 
-    private val clickListener= View.OnClickListener { view->
-        when(view.id){
-
-
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -223,9 +216,9 @@ class PendientesFragment : Fragment() {
         val correoEditText = dialogLayout.findViewById<EditText>(R.id.correoEditText)
         val descripcionEditText = dialogLayout.findViewById<EditText>(R.id.descripcionEditText)
 
-        // Rellenar los EditText con los datos del ListElement
+
         nombreEditText.setText(listElement.nombre)
-        fechaEditText.setText(listElement.fecha.toString()) // Asegúrate de convertir la fecha a un formato legible
+        fechaEditText.setText(listElement.fecha.toString())
         prioridadEditText.setText(listElement.prioridad)
         estadoEditText.setText(listElement.estado)
         correoEditText.setText(listElement.correo)
@@ -236,7 +229,6 @@ class PendientesFragment : Fragment() {
             .setPositiveButton("Aceptar") { dialog, _ ->
 
                 listElement.nombre = nombreEditText.text.toString()
-                // Asegúrate de convertir la fecha de nuevo al formato Date si es necesario
                 listElement.fecha = Date(fechaEditText.text.toString())
                 listElement.prioridad = prioridadEditText.text.toString()
                 listElement.estado = estadoEditText.text.toString()

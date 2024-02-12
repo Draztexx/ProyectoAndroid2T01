@@ -16,19 +16,24 @@ class ListAdapter (private var mData:List<ListElement>,private val context: Cont
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.list_element, parent, false)
-        return ViewHolder(view)
+
+            val view = LayoutInflater.from(context).inflate(R.layout.list_element, parent, false)
+            return ViewHolder(view)
+
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindData(mData[position])
-        holder.editButton.setOnClickListener {
-            itemClickListener?.onEditButtonClick(position,mData[position].idtareas)
-        }
 
-        holder.deleteButton.setOnClickListener {
-            itemClickListener?.onDeleteButtonClick(position,mData[position].idtareas)
-        }
+
+            holder.bindData(mData[position])
+            holder.editButton.setOnClickListener {
+                itemClickListener?.onEditButtonClick(position, mData[position].idtareas)
+            }
+
+            holder.deleteButton.setOnClickListener {
+                itemClickListener?.onDeleteButtonClick(position, mData[position].idtareas)
+            }
+
     }
 
     fun setItems(items: List<ListElement>) {
