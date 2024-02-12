@@ -20,8 +20,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.OnMapReadyCallback
 
 
-class HomeFragment : Fragment(),OnMapReadyCallback {
-
+class HomeFragment : Fragment() {
+    //,OnMapReadyCallback
     private var _binding: FragmentHomeBinding? = null
 
     private lateinit var googleMap: GoogleMap
@@ -35,6 +35,10 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val rootView = inflater.inflate(R.layout.fragment_home, container, false)
+
+
+        /*
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
@@ -43,12 +47,12 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         mapView = _binding!!.mapView
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
-
+        */
 
 
         return rootView
     }
-
+/*
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
         // Verificar y solicitar permisos si es necesario
@@ -92,5 +96,5 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
 
-
+*/
 }

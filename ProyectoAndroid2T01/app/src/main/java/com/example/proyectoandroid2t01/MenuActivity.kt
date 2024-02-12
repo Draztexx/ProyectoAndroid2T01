@@ -1,5 +1,6 @@
 package com.example.proyectoandroid2t01
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.widget.TextView
@@ -58,8 +59,14 @@ class MenuActivity : AppCompatActivity() {
         setSupportActionBar(binding.appBarMenu.toolbar)
 
         binding.appBarMenu.fab.setOnClickListener { view ->
+            /*
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
+            eliminarTablaUsuario()
+            */
+
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
@@ -97,9 +104,7 @@ class MenuActivity : AppCompatActivity() {
     }
 
 
-    private fun showToast(message: String){
 
-    }
 
     private fun consultar():Array<String>?{
         val db=dbHelper.readableDatabase
@@ -116,6 +121,12 @@ class MenuActivity : AppCompatActivity() {
         db.close()
         return Usuario
 
+    }
+
+    private fun eliminarTablaUsuario() {
+        val db = dbHelper.writableDatabase
+        db.execSQL("DELETE FROM usuario")
+        db.close()
     }
 
 

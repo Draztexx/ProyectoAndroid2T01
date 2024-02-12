@@ -1,6 +1,13 @@
 package com.example.proyectoandroid2t01.ui.pendientes
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +19,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.findViewTreeViewModelStoreOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +42,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -49,6 +62,9 @@ class PendientesFragment : Fragment() {
     private var elements: MutableList<ListElement> = mutableListOf()
 
     private var listAdapter: ListAdapter? = null
+    private var chanelID="chat"
+    private var chanelName="chat"
+    private val PERMISSION_REQUEST_CODE = 123
 
 
     override fun onCreateView(
@@ -56,6 +72,13 @@ class PendientesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_pendientes, container, false)
+
+
+
+
+        //configuramos
+
+
 
         //preparar la concexion a bases------------------------------
         val gson = GsonBuilder().setLenient().create()
@@ -128,6 +151,16 @@ class PendientesFragment : Fragment() {
                                         correo = tarea.correo,
                                         descripcion = tarea.descripcion
                                     )
+                                    val currentDate = Calendar.getInstance()
+                                    val tareaDate = Calendar.getInstance().apply {
+                                        time = listElement.fecha
+                                    }
+                                    if (currentDate.get(Calendar.YEAR) == tareaDate.get(Calendar.YEAR) &&
+                                        currentDate.get(Calendar.MONTH) == tareaDate.get(Calendar.MONTH) &&
+                                        currentDate.get(Calendar.DAY_OF_MONTH) == tareaDate.get(Calendar.DAY_OF_MONTH)
+                                    ) {
+                                        notificacion("Hoy es el plazo para la tarea: ${tarea.nombre}, ${tarea.estado}, ${tarea.fecha}", tarea.idtareas.toInt())
+                                    }
                                     elements.add(listElement)
                                 }
                                 listAdapter?.notifyDataSetChanged()
@@ -278,5 +311,44 @@ class PendientesFragment : Fragment() {
                 dialog.dismiss()
             }
             .show()
+    }
+
+    private fun notificacion(mensaje : String,id:Int){
+        /*
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                PERMISSION_REQUEST_CODE
+            )
+
+        }
+        */
+       // if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(chanelID, chanelName, importance)
+
+
+            val manager =
+                requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+            manager.createNotificationChannel(channel)
+        //}
+
+        val notificacionManager=NotificationManagerCompat.from(requireContext())
+
+        val notificacion=NotificationCompat.Builder(requireContext(),chanelID).also { noti->
+            noti.setContentTitle("titulo")
+            noti.setContentText(mensaje)
+            noti.setSmallIcon(R.drawable.baseline_library_add_check_24)
+        }.build()
+
+
+        notificacionManager.notify(id,notificacion)
+
     }
 }

@@ -73,6 +73,7 @@ class MainActivity : AppCompatActivity() {
 
         //preparar la conexion a SQLITE
         dbHelper=AdminSQLiteOpenHelper(this,"aplicacion",null,1)
+
         //----------------------------------
 
     }
