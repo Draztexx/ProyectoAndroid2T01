@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         apiService=retrofit.create(MainApi::class.java)
         //_------------------------------------------------
 
-        //prepara a la conexion a SQLITE
+        //preparar la conexion a SQLITE
         dbHelper=AdminSQLiteOpenHelper(this,"aplicacion",null,1)
         //----------------------------------
 
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                                         }
                                         .show()
 
-                                    insertar(usuarioResponse.correo,usuarioResponse.nombreapellido,usuarioResponse.edad)
+                                    insertar(usuarioResponse!!.correo,usuarioResponse.nombreapellido,usuarioResponse.edad)
                                     startActivity(Intent(this@MainActivity,MenuActivity::class.java));
 
                                 }else{
@@ -172,7 +172,7 @@ class MainActivity : AppCompatActivity() {
             put("nombre", nombre)
             put("edad",edad)
         }
-        db.insert("usario",null,values)
+        db.insert("usuario",null,values)
         db.close()
     }
 

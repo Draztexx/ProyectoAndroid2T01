@@ -24,7 +24,7 @@ class MenuActivity : AppCompatActivity() {
     private lateinit var apiService: MainApi
 
     //
-
+    private lateinit var dbHelper: AdminSQLiteOpenHelper
 
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -43,6 +43,14 @@ class MenuActivity : AppCompatActivity() {
 
         //------------------------------------------------------------------
 
+        //preparar la conxion a SQLITE--------------------------------
+        dbHelper=AdminSQLiteOpenHelper(this,"aplicacion",null,1)
+        //__________________________________________________________________
+
+        //consultar sqlite----------------------
+        val usuario=consultar()
+
+        //--------------------------------------
 
         binding = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -63,8 +71,8 @@ class MenuActivity : AppCompatActivity() {
         val headerNombre: TextView = headerView.findViewById(R.id.Nombremenu)
         val headerCorreo: TextView = headerView.findViewById(R.id.Correomenu)
 
-
-        headerTextView.text = "Nuevo Nombre de Usuario"
+        headerNombre.text = usuario?.get(1)
+        headerCorreo.text = usuario?.get(0)
 
         // -----------------------------------------------------------------
 
@@ -93,7 +101,22 @@ class MenuActivity : AppCompatActivity() {
 
     }
 
+    private fun consultar():Array<String>?{
+        val db=dbHelper.readableDatabase
+        val cursor=db.rawQuery("SELECT correo,nombre,edad FROM usuario",null)
+        var Usuario:Array<String>?=null
+        if(cursor.moveToFirst()){
+            val correo=cursor.getString(0)
+            val nombre=cursor.getString(1)
+            val edad=cursor.getString(2)
+            Usuario=arrayOf(correo,nombre,edad)
+        }
 
+        cursor.close()
+        db.close()
+        return Usuario
+
+    }
 
 
 

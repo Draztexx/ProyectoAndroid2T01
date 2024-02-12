@@ -1,5 +1,6 @@
 package com.example.proyectoandroid2t01
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -45,12 +46,14 @@ class Register : AppCompatActivity() {
         loginButton.setOnClickListener(clickListener)
         redirectButton.setOnClickListener(clickListener)
 
-
+        //preparar conexion a nases------------------------------
         val retrofit=Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         apiService=retrofit.create(MainApi::class.java)
+        //-----------------------------------------------------------
+
 
     }
 
@@ -151,6 +154,7 @@ class Register : AppCompatActivity() {
     private fun showToast(message: String){
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
     }
+
 
 
 

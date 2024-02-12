@@ -13,4 +13,19 @@
     <string name="menu_crear">Crear Tarea</string>
     <string name="menu_pendientes">Tareas Pendientes</string>
     <string name="menu_finalizadas">Tareas Finalizadas</string>
+
+    <string-array name="opciones_estado">
+        <item>Pendiente</item>
+        <item>Progreso</item>
+        <item>Completado</item>
+    </string-array>
+
+
+    <string-array name="opciones_prioridad">
+        <item>Baja</item>
+        <item>Media</item>
+        <item>Alta</item>
+    </string-array>
+
+
 </resources>
