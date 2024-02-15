@@ -64,7 +64,7 @@ class PendientesFragment : Fragment() {
     private var listAdapter: ListAdapter? = null
     private var chanelID="chat"
     private var chanelName="chat"
-    private val PERMISSION_REQUEST_CODE = 123
+
 
 
     override fun onCreateView(
@@ -314,30 +314,12 @@ class PendientesFragment : Fragment() {
     }
 
     private fun notificacion(mensaje : String,id:Int){
-        /*
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                PERMISSION_REQUEST_CODE
-            )
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val channel = NotificationChannel(chanelID, chanelName, importance)
 
-        }
-        */
-       // if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel(chanelID, chanelName, importance)
+        val manager=requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-
-            val manager =
-                requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-            manager.createNotificationChannel(channel)
-        //}
+        manager.createNotificationChannel(channel)
 
         val notificacionManager=NotificationManagerCompat.from(requireContext())
 

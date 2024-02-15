@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                                             dialog.dismiss()
                                         }
                                         .show()
-
+                                    eliminarUsuario()
                                     insertar(usuarioResponse!!.correo,usuarioResponse.nombreapellido,usuarioResponse.edad)
                                     startActivity(Intent(this@MainActivity,MenuActivity::class.java));
 
@@ -176,6 +176,13 @@ class MainActivity : AppCompatActivity() {
         db.insert("usuario",null,values)
         db.close()
     }
+
+    private fun eliminarUsuario() {
+        val db = dbHelper.writableDatabase
+        db.execSQL("DELETE FROM usuario")
+        db.close()
+    }
+
 
 
 

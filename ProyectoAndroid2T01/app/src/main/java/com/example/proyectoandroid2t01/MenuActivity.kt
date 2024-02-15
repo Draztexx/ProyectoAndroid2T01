@@ -22,6 +22,7 @@ class MenuActivity : AppCompatActivity() {
     //Variables de conexion
 
     private val baseUrl="http://10.0.2.2/"
+    //private val baseUrl="http://185.27.134.139/"
     private lateinit var apiService: MainApi
 
     //
@@ -61,9 +62,9 @@ class MenuActivity : AppCompatActivity() {
         binding.appBarMenu.fab.setOnClickListener { view ->
             /*
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-            eliminarTablaUsuario()
-            */
+                .setAction("Action", null).show()*/
+            eliminarUsuario()
+
 
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -123,7 +124,7 @@ class MenuActivity : AppCompatActivity() {
 
     }
 
-    private fun eliminarTablaUsuario() {
+    private fun eliminarUsuario() {
         val db = dbHelper.writableDatabase
         db.execSQL("DELETE FROM usuario")
         db.close()
