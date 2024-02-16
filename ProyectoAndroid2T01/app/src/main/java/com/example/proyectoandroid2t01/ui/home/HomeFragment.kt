@@ -13,22 +13,23 @@ import androidx.lifecycle.ViewModelProvider
 
 import com.example.proyectoandroid2t01.R
 import com.example.proyectoandroid2t01.databinding.FragmentHomeBinding
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.MarkerOptions
 
 
-class HomeFragment : Fragment() {
-    //,OnMapReadyCallback
-    private var _binding: FragmentHomeBinding? = null
+class HomeFragment : Fragment(),OnMapReadyCallback  {
 
-    private lateinit var googleMap: GoogleMap
+    private lateinit var map: GoogleMap
 
     private lateinit var mapView: MapView
-
-    private val binding get() = _binding!!
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,65 +37,31 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
-
-
-        /*
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val rootView = binding.root
-
-
-        // Configurar el MapView
-        mapView = _binding!!.mapView
+        mapView = rootView.findViewById(R.id.mapView)
         mapView.onCreate(savedInstanceState)
+        mapView.onResume()
         mapView.getMapAsync(this)
-        */
-
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
         return rootView
     }
-/*
-    override fun onMapReady(map: GoogleMap) {
-        googleMap = map
-        // Verificar y solicitar permisos si es necesario
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            googleMap.isMyLocationEnabled = true
-        } else {
-            // Solicitar permisos
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE
-            )
-        }
 
 
-        val currentLocation = LatLng(37.7749, -122.4194)
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f))
+    override fun onMapReady(googleMap: GoogleMap) {
+        map = googleMap
+
+        crearMarcadorColegio()
     }
 
-    override fun onResume() {
-        super.onResume()
-        mapView.onResume()
+    private fun crearMarcadorColegio() {
+        val coordenadas = LatLng(40.9688200, -5.6638800)
+        val marcador: MarkerOptions = MarkerOptions().position(coordenadas).title("Salamanca")
+        map.addMarker(marcador)
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(coordenadas, 15.0f))
     }
-
-    override fun onPause() {
-        super.onPause()
-        mapView.onPause()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
 
-*/
 }

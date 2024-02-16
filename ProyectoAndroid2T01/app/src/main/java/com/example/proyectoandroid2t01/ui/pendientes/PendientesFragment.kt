@@ -155,10 +155,7 @@ class PendientesFragment : Fragment() {
                                     val tareaDate = Calendar.getInstance().apply {
                                         time = listElement.fecha
                                     }
-                                    if (currentDate.get(Calendar.YEAR) == tareaDate.get(Calendar.YEAR) &&
-                                        currentDate.get(Calendar.MONTH) == tareaDate.get(Calendar.MONTH) &&
-                                        currentDate.get(Calendar.DAY_OF_MONTH) == tareaDate.get(Calendar.DAY_OF_MONTH)
-                                    ) {
+                                    if (currentDate.timeInMillis>=tareaDate.timeInMillis){
                                         notificacion("Hoy es el plazo para la tarea: ${tarea.nombre}, ${tarea.estado}, ${tarea.fecha}", tarea.idtareas.toInt())
                                     }
                                     elements.add(listElement)

@@ -1,19 +1,23 @@
 package com.example.proyectoandroid2t01
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
+import android.widget.Toast
+import androidx.annotation.NonNull
+import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
 import com.example.proyectoandroid2t01.databinding.ActivityMenuBinding
+import com.google.android.material.navigation.NavigationView
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -28,7 +32,7 @@ class MenuActivity : AppCompatActivity() {
     //
     private lateinit var dbHelper: AdminSQLiteOpenHelper
 
-
+    var player: MediaPlayer? = null
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMenuBinding
 
@@ -53,6 +57,8 @@ class MenuActivity : AppCompatActivity() {
         val usuario=consultar()
 
         //--------------------------------------
+        player = MediaPlayer.create(this, R.raw.musica)
+
 
         binding = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -60,9 +66,6 @@ class MenuActivity : AppCompatActivity() {
         setSupportActionBar(binding.appBarMenu.toolbar)
 
         binding.appBarMenu.fab.setOnClickListener { view ->
-            /*
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()*/
             eliminarUsuario()
 
 
@@ -94,9 +97,20 @@ class MenuActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected( item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.action_settings ->{
+                Toast.makeText(this,"Musica",Toast.LENGTH_LONG).show()
+                playpause()
+                return true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -132,7 +146,15 @@ class MenuActivity : AppCompatActivity() {
 
 
 
-
+    private fun playpause() {
+        if (player != null) {
+            if (player!!.isPlaying) {
+                player!!.pause()
+            } else {
+                player!!.start()
+            }
+        }
+    }
 
 
 
